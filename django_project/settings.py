@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vy75#gc=o#q1uc4zm0!fsdxi8dj296qen-^cz@h*t4i#wyt2l*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yafenblogapp.herokuapp.com']
 
 
 # Application definition
