@@ -19,5 +19,4 @@ urlpatterns = [
     path('post/<int:pk>/delete/', PostDeleteView.as_view(),name='post-delete'),##NO SPACE WITHIN THE QUOTE SIGN
     path('post/new/', PostCreateView.as_view(),name='post-create'),##NO SPACE WITHIN THE QUOTE SIGN
     path('about/', views.about,name='blog-about'),
-
 ]

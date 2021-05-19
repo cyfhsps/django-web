@@ -25,10 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG_VALUE')=='True')
+DEBUG = 'True' #(os.environ.get('DEBUG_VALUE')=='True')
 
 ALLOWED_HOSTS = ['yafenblogapp.herokuapp.com']
-
 
 # Application definition
 
@@ -43,7 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages'
+    'storages',
+    
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    #'social_django',
+
 ]
 
 MIDDLEWARE = [
@@ -54,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -61,7 +69,7 @@ ROOT_URLCONF = 'django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -137,6 +147,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =True
 
 EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -145,6 +156,38 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER= 'cyfhsps@gmail.com'
 EMAIL_HOST_PASSWORD= os.environ.get('GMAIL_APP')
 DEFAULT_FROM_EMAIL= 'Password Security <resetpassword@blog.com>'
+
+AUTHENTICATION_BACKENDS=[
+                            'django.contrib.auth.backends.ModelBackend',
+                                'allauth.account.auth_backends.AuthenticationBackend',
+                                 'social_core.backends.google.GoogleOAuth2',
+
+]
+
+
+SITE_ID = 1
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+SOCIAL_AUTH_GOOGLE_KEY = '940093022115-0e92g9kb1t2gmi7annkm4qe03pagh862.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_SECRET =  '1-A9pA69M7qPLTntGp289AyThO'
+
+
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWSKEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWSACCESS')
